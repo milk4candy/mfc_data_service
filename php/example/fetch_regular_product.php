@@ -2,7 +2,7 @@
 
 <?php
     // Load API
-    require(dirname(__DIR__)."/mfc_data_service.php");
+    require(dirname(__DIR__).DIRECTORY_SEPARATOR."api".DIRECTORY_SEPARATOR."mfc_data_service.php");
 
     // Create a data service obj
     $service = new mfc_data_service();
