@@ -48,6 +48,59 @@
             
         }
 
+        public function save_files($save_dir, $name_filter=false, $size_filter=false){
+            $xml = simplexml_load_string($this->response);
+
+            $save_dir = rtrim($save_dir, "/");
+
+            $files_to_save = array();
+            foreach($xml->file as $file){
+                $filename = (string)$file->attributes()->name;
+                $mtime = (string)$file->attributes()->mtime;
+                $size = (int)$file->attributes()->size;
+
+                if($name_filter){
+                    if(!preg_match($name_filter, $filename)){
+                        continue;
+                    }
+                }
+
+                if($size_filter){
+                    if($size_filter > 0){
+                        if($size < $size_filter){
+                            continue;
+                        }
+                    }elseif($size_filter < 0){
+                        if($size > abs($size_filter)){
+                            continue;
+                        }
+                    }else{
+                        if($size != 0){
+                            continue;
+                        }
+                    }
+                }
+
+                $files_to_save[$filename] = (string)$file->url;
+            }
+
+            if(count($files_to_save) > 0){
+                echo "Start downloading files to $save_dir ...\n";
+                foreach($files_to_save as $fn => $url){
+                    $cmd = "wget -q -O $save_dir/$fn $url";
+                    echo "  Downloading $fn ...";
+                    exec($cmd, $output, $exec_code);
+                    if($exec_code == 0){
+                        echo "  success.\n";
+                    }else{
+                        echo "  fail.\n";
+                    }
+                }
+                echo "Download finished.\n";
+            }
+            
+        }
+
     }
 
 ?>
