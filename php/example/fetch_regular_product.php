@@ -11,10 +11,11 @@
     $service->set_url("http://mfc.cwb.gov.tw/index.php/ctrl_web_service/regular_product_service/506/num_now_3/rsort_by_filename");
     $service->set_basic_authorization("username", "password");
 
-    // Fetch data and print it out
-    $service->fetch_file_list();
+    // Fetch xml of file list and print it out
+    $xml_str = $service->fetch_file_list();
+    echo $xml_str;
 
-    // Download files to local directory
+    // Save files in file list to local directory
     $service->save_file("/tmp/test");
 
     exit();
