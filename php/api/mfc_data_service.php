@@ -35,7 +35,7 @@
             curl_setopt($this->get_http(), CURLOPT_HTTPHEADER, array("Authorization: Basic $auth_str"));
         }
 
-        public function fetch_data($format="xml"){
+        public function fetch_file_list($format="xml"){
 
             $http = $this->get_http();
             $url = $this->get_url();
@@ -48,8 +48,9 @@
             
         }
 
-        public function save_files($save_dir, $name_filter=false, $size_filter=false){
-            $xml = simplexml_load_string($this->response);
+        public function save_file($save_dir, $name_filter=false, $size_filter=false){
+
+            $xml = simplexml_load_string($this->fetch_file_list());
 
             $save_dir = rtrim($save_dir, "/");
 

@@ -12,9 +12,9 @@
     $service->set_basic_authorization("username", "password");
 
     // Fetch data and print it out
-    $service->fetch_data();
+    $service->fetch_file_list();
 
     // Download files to local directory
-    $service->save_files("/tmp/test");
+    $service->save_file("/tmp/test");
 
     exit();
